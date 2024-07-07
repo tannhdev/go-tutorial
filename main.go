@@ -32,15 +32,15 @@ func main() {
 	app := controllers.NewApplication(database.ProductData(database.Client, "Products"), database.UserData(database.Client, "Users"))
 
 	router := gin.New()
-	router.User(gin.Logger())
+	router.Use(gin.Logger())
 
-	router.UserRoutes(router)
+	router.Routes()
 	router.Use(middleware.Authentication())
 
 	router.GET("/addtocart", app.AddToCart())
-	router.GET("/removeitem", app.RemoveItem())
+	router.GET("/removeitem", app.RemoveFromCart())
 	router.GET("/cartcheckout", app.BuyFromCart())
-	router.GET("/instantbuyt", app.InstantBuy())
+	router.GET("/instantbuy", app.InstantBuy())
 
 	log.Fatal(router.Run(":" + port))
 }
